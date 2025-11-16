@@ -63,12 +63,17 @@ stage("Building the application"){
 
      stage('Deploying on EC2 Minikube Cluster') {
             steps {
-                    sh 'scp deployment.yaml ubuntu@$MINIKUBE_IP:/home/ubuntu/'
-                    sh 'ssh ubuntu@$MINIKUBE_IP "kubectl delete -f /home/ubuntu/deployment.yaml --ignore-not-found=true"'
-                    sh 'ssh ubuntu@$MINIKUBE_IP "kubectl apply -f /home/ubuntu/deployment.yaml"'
+                     shagent(['ec2-ssh-key']) {
+                       sh '''
+                         EC2_HOST='65.0.100.41'
+  
+                        # Test SSH connection
+                        ssh -o StrictHostKeyChecking=no ubuntu@$EC2_HOST "echo Connected to EC2"
+                     '''
+                   
                 }
             }
-
+          }
 
 
 } // end of stages
