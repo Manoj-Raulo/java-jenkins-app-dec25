@@ -17,6 +17,17 @@ stages{
            """
       }
    } 
+
+   stage("Check Tools") {
+            steps {
+                sh '''
+                  echo "PATH = $PATH"
+                  which mvn
+                  mvn --version
+                  java -version
+                '''
+            }
+        }
        
     stage("Building the application"){
      steps {
