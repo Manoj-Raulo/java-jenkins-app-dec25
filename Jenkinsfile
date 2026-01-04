@@ -14,6 +14,12 @@ stages{
 
   
    stage("checkout"){
+    when {
+                // Execute this stage if the ENVIRONMENT parameter is 'development'
+                expression { 
+                     return params.DEPLOY_ENV == 'development' 
+                }
+          }
      steps {
            sh """
            echo "Checkout done - $PWD"
