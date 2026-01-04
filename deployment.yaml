@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: springrestapi-container
-        image: manoj900/springrestapi:78
+        image: manoj900/springrestapi:91
         ports:
         - containerPort: 7000
 ---
