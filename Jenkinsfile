@@ -2,8 +2,8 @@ pipeline {
  agent any
 
  environment {
-        IMAGE_NAME = 'manoj900/springrestxapi'
-        PORT_MAPPING = '8081:7000'  // hostPort:containerPort
+        IMAGE_NAME = 'priya123456/springrestapi'
+        PORT_MAPPING = '8081:7000'
         DOCKERCREDENTIALS = credentials("dockerhub")
     }
 
@@ -96,6 +96,7 @@ stages{
          """      
    } 
  }
+ 
 } // end of stages
 
 } // end of pipeline
