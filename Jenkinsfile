@@ -7,7 +7,7 @@ pipeline {
     }
 
   parameters {
-   string(name: 'DEPLOY_ENV', defaultValue: 'developmeent', description: 'Select the target environment')
+   string(name: 'DEPLOY_ENV', defaultValue: 'development', description: 'Select the target environment')
 }
 
 stages{
