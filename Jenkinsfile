@@ -4,6 +4,7 @@ pipeline {
  environment {
         IMAGE_NAME = 'manoj900/springrestapi'
         PORT_MAPPING = '8081:7000'
+        DOCKERHUB = credentials('dockerhub')
         
         
     }
@@ -81,16 +82,9 @@ stages{
 
  stage('Docker Login') {
     steps {
-        withCredentials([usernamePassword(
-            credentialsId: 'dockerhub',
-            usernameVariable: 'DOCKER_USER',
-            passwordVariable: 'DOCKER_PASS'
-        )]) {
-            sh '''
-                echo "Logging into Docker Hub..."
-                echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-            '''
-        }
+        sh '''
+            docker login -u $DOCKERHUB_USR -p $DOCKERHUB_PSW
+        '''
     }
 }
 
