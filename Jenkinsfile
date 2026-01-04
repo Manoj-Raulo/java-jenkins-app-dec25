@@ -6,6 +6,10 @@ pipeline {
         maven 'maven-3.9.12'
     }
 
+  parameters {
+   string(name: 'DEPLOY_ENV', defaultValue: 'developmeent', description: 'Select the target environment')
+}
+
 stages{
 
   
@@ -13,6 +17,7 @@ stages{
      steps {
            sh """
            echo "Checkout done - $PWD"
+           exho "DEPLOY_ENV value $DEPLOY_ENV"
            ls -l
            """
       }
