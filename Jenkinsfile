@@ -91,7 +91,7 @@ stages{
                 echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
 
                 echo "Pushing Docker image..."
-                docker push ${IMAGE_NAME}:${env.BUILD_NUMBER}
+                docker push ${IMAGE_NAME}:${BUILD_NUMBER}
 
                 echo "Docker image pushed successfully"
             '''
