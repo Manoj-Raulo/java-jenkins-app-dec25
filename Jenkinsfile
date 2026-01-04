@@ -79,19 +79,26 @@ stages{
 
 
 
- stage('Docker Login') {
+ stage('Docker Login & Push') {
     steps {
         withCredentials([usernamePassword(
-            credentialsId: 'Docker-token',
+            credentialsId: 'Docker-token',   // must match Jenkins credentials ID
             usernameVariable: 'DOCKER_USER',
             passwordVariable: 'DOCKER_PASS'
         )]) {
             sh '''
+                echo "Logging in to Docker Hub..."
                 echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+
+                echo "Pushing Docker image..."
+                docker push ${IMAGE_NAME}:${env.BUILD_NUMBER}
+
+                echo "Docker image pushed successfully"
             '''
         }
     }
 }
+
 
 
 
