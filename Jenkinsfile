@@ -17,7 +17,7 @@ stages{
      steps {
            sh """
            echo "Checkout done - $PWD"
-           exho "DEPLOY_ENV value $DEPLOY_ENV"
+           echo "DEPLOY_ENV value $DEPLOY_ENV"
            ls -l
            """
       }
