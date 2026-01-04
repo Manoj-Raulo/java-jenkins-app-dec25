@@ -107,17 +107,20 @@ stage("Clean the Docker Local Images"){
    }
  }
 
-      stage('Connect to EC2 & Deployon on Minikube ') {
-            steps {
-                     
-                    withCredentials([sshUserPrivateKey(credentialsId: 'ubuntu-cred', keyFileVariable: 'SSH_KEY')]) {
-                    sh "ssh -i ${SSH_KEY} -o StrictHostKeyChecking=no ubuntu@$MINIKUBE_IP 'echo Connected to EC2'"
-                    sh 'scp -i ${SSH_KEY} -o StrictHostKeyChecking=no deployment.yaml ubuntu@$MINIKUBE_IP:/home/ubuntu/'
-                    sh 'ssh -i ${SSH_KEY} -o StrictHostKeyChecking=no ubuntu@$MINIKUBE_IP "kubectl delete -f /home/ubuntu/deployment.yaml --ignore-not-found=true"'
-                    sh 'ssh -i ${SSH_KEY} -o StrictHostKeyChecking=no ubuntu@$MINIKUBE_IP "kubectl apply -f /home/ubuntu/deployment.yaml"'
-                  }
-          }
-     }
+      stage('SSH Test') {
+    steps {
+        withCredentials([sshUserPrivateKey(
+            credentialsId: 'ubuntu-cred',
+            keyFileVariable: 'SSH_KEY',
+            usernameVariable: 'SSH_USER'
+        )]) {
+            sh '''
+                echo "Connecting to EC2..."
+                ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no $SSH_USER@3.108.236.254 echo "Connected to EC2"
+            '''
+        }
+    }
+}
 
 
 
