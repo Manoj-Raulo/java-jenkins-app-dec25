@@ -4,7 +4,7 @@ pipeline {
  environment {
         IMAGE_NAME = 'manoj900/springrestapi'
         PORT_MAPPING = '8081:7000'
-        MINIKUBE_IP = '3.108.236.254'
+        MINIKUBE_IP = '43.204.237.84'
         
         
     }
@@ -107,16 +107,14 @@ stage("Clean the Docker Local Images"){
    }
  }
 
-      stage('SSH Test') {
+      stage('Deploy to EC2') {
     steps {
-        withCredentials([sshUserPrivateKey(
-            credentialsId: 'ubuntu-cred',
-            keyFileVariable: 'SSH_KEY',
-            usernameVariable: 'SSH_USER'
-        )]) {
+        sshagent(credentials: ['ubuntu-cred']) {
             sh '''
-                echo "Connecting to EC2..."
-                ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no $SSH_USER@3.108.236.254 echo "Connected to EC2"
+                ssh -o StrictHostKeyChecking=no ubuntu@${MINIKUBE_IP} << 'EOF'
+                  docker ps
+                  minikube status
+                EOF
             '''
         }
     }
