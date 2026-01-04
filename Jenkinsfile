@@ -4,7 +4,7 @@ pipeline {
  environment {
         IMAGE_NAME = 'priya123456/springrestapi'
         PORT_MAPPING = '8081:7000'
-        DOCKERCREDENTIALS = credentials("dockerhub")
+        
     }
 
  
@@ -86,17 +86,22 @@ stages{
   }
  }
 
- stage("Docker Login")
- {
-   steps{
-      sh """
-           echo "======== Login the Docker Hub ============"
-            echo "Docker credentials - ${DOCKERCREDENTIALS}"
-            docker login -u $DOCKERCREDENTIALS_USR --password DOCKERCREDENTIALS_PSW
-           echo "====== Login successful====="
-         """      
-   } 
- }
+ stage('Docker Login') {
+    steps {
+        withCredentials([usernamePassword(
+            credentialsId: 'dockerhub',
+            usernameVariable: 'DOCKER_USER',
+            passwordVariable: 'DOCKER_PASS'
+        )]) {
+            sh '''
+                echo "Logging into Docker Hub"
+                echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+            '''
+        }
+    }
+}
+
+
  
 } // end of stages
 
