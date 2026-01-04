@@ -4,6 +4,7 @@ pipeline {
  environment {
         IMAGE_NAME = 'manoj900/springrestxapi'
         PORT_MAPPING = '8081:7000'  // hostPort:containerPort
+        DOCKERCREDENTIALS = credentials("dockerhub")
     }
 
  
@@ -75,7 +76,26 @@ stages{
    } 
  }
 
+ stage("Scan the Image"){
+  steps {
+    sh """
+       echo "=====Scanning Image Started======"
+       trivy image $IMAGE_NAME:"${env.BUILD_NUMBER}"
+       echo "=====Scanning Completed========"
+       """
+  }
+ }
 
+ stage("Docker Login")
+ {
+   steps{
+      sh """
+           echo "======== Login the Docker Hub ============"
+            echo "Docker credentials - ${DOCKERCREDENTIALS}"
+           echo "====== Login successful====="
+         """      
+   } 
+ }
 } // end of stages
 
 } // end of pipeline
