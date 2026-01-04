@@ -69,7 +69,7 @@ stages{
    steps {
           sh """
            echo "========Building the Docker Image ============"
-           docker build -t $IMAGE_NAME:'$APP_VERSION' .
+           docker build -t ${IMAGE_NAME}:${APP_VERSION} .
            echo "====== Building Image Completed ====="
          """      
    } 
