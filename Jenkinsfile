@@ -62,7 +62,7 @@ stages{
    stage("Testing the application"){
      steps {
          sh 'echo "========Testing Java Application============"'
-         sh  '/opt/apache-maven-3.9.12/bin/mvn test'
+         sh 'mvn test'
           sh 'echo "========Completed Tests============"'
      }  
    }
