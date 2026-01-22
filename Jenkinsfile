@@ -4,7 +4,7 @@ pipeline {
  environment {
         IMAGE_NAME = 'manoj900/springrestapi'
         PORT_MAPPING = '8081:7000'
-        MINIKUBE_IP = '43.204.237.84'
+        MINIKUBE_IP = '13.234.231.117'
         
         
     }
